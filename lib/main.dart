@@ -34,7 +34,8 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        key: scaffoldKey,
+        scaffoldMessengerKey: scaffoldKey,
+        //So I can display snackbar later with same key.
         title: 'Smart Pay',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
