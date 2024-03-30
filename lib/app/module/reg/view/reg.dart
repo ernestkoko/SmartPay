@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smartpay/app/animations/slide.dart';
 import 'package:smartpay/app/asset/image.dart';
 import 'package:smartpay/app/module/reg/bloc/reg_bloc.dart';
 import 'package:smartpay/app/route/app_route.dart';
@@ -36,56 +37,62 @@ class RegPage extends StatelessWidget {
           },
           builder: (context, state) {
             final bloc = context.read<RegBloc>();
-            return Container(
-              margin: const EdgeInsets.only(left: 15, right: 15, top: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      if (bloc.regPageState != RegPageState.registered)
-                        AppBackButton(
-                          onTap: state is RegLoadingState && state.loading
-                              ? () {}
-                              : () {
-                                  if (bloc.regPageState == RegPageState.pin) {
-                                    bloc.add(OnRegPageChangedEvent(
-                                        page: RegPageState.details,
-                                        backward: true));
-                                  } else if (bloc.regPageState ==
-                                      RegPageState.details) {
-                                    bloc.add(OnRegPageChangedEvent(
-                                        page: RegPageState.verify,
-                                        backward: true));
-                                  } else if (bloc.regPageState ==
-                                      RegPageState.verify) {
-                                    bloc.add(OnRegPageChangedEvent(
-                                        page: RegPageState.reg,
-                                        backward: true));
-                                  }
-                                },
-                        ),
-                    ],
-                  ),
-                  40.verticalSpace,
-                  Expanded(
-                    child: ListView(
-                      shrinkWrap: true,
+            return AppSlideAnimation(
+              beginOffset: state is RegInitState && state.animate
+                  ? Offset(-0.1, -0.15)
+                  : null,
+              milliseconds: 2500,
+              child: Container(
+                margin: const EdgeInsets.only(left: 15, right: 15, top: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
                       children: [
-                        if (bloc.regPageState == RegPageState.reg)
-                          ..._regState(context, bloc: bloc, state: state),
-                        if (bloc.regPageState == RegPageState.verify)
-                          ..._verifyState(context, bloc: bloc, state: state),
-                        if (bloc.regPageState == RegPageState.details)
-                          ..._details(context, bloc: bloc, state: state),
-                        if (bloc.regPageState == RegPageState.pin)
-                          ..._pin(context, bloc: bloc, state: state),
-                        if (bloc.regPageState == RegPageState.registered)
-                          ..._registered(context, bloc: bloc),
+                        if (bloc.regPageState != RegPageState.registered)
+                          AppBackButton(
+                            onTap: state is RegLoadingState && state.loading
+                                ? () {}
+                                : () {
+                                    if (bloc.regPageState == RegPageState.pin) {
+                                      bloc.add(OnRegPageChangedEvent(
+                                          page: RegPageState.details,
+                                          backward: true));
+                                    } else if (bloc.regPageState ==
+                                        RegPageState.details) {
+                                      bloc.add(OnRegPageChangedEvent(
+                                          page: RegPageState.verify,
+                                          backward: true));
+                                    } else if (bloc.regPageState ==
+                                        RegPageState.verify) {
+                                      bloc.add(OnRegPageChangedEvent(
+                                          page: RegPageState.reg,
+                                          backward: true));
+                                    }
+                                  },
+                          ),
                       ],
                     ),
-                  ),
-                ],
+                    40.verticalSpace,
+                    Expanded(
+                      child: ListView(
+                        shrinkWrap: true,
+                        children: [
+                          if (bloc.regPageState == RegPageState.reg)
+                            ..._regState(context, bloc: bloc, state: state),
+                          if (bloc.regPageState == RegPageState.verify)
+                            ..._verifyState(context, bloc: bloc, state: state),
+                          if (bloc.regPageState == RegPageState.details)
+                            ..._details(context, bloc: bloc, state: state),
+                          if (bloc.regPageState == RegPageState.pin)
+                            ..._pin(context, bloc: bloc, state: state),
+                          if (bloc.regPageState == RegPageState.registered)
+                            ..._registered(context, bloc: bloc),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             );
           },
@@ -336,41 +343,53 @@ class RegPage extends StatelessWidget {
   List<Widget> _registered(BuildContext context, {required RegBloc bloc}) {
     return [
       (MediaQuery.of(context).size.height * 0.20).verticalSpace,
-      Image.asset(
-        AppAsset.congrats,
-        height: 134,
+      AppSlideAnimation(
+        beginOffset: Offset(-1.6, -2.0),
+        child: Image.asset(
+          AppAsset.congrats,
+          height: 134,
+        ),
       ),
       50.verticalSpace,
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Congratulations, ${bloc.nameController.text.split(' ')[0]} ',
-            style: Theme.of(context).textTheme.headlineLarge,
-          ),
-        ],
+      AppSlideAnimation(
+        beginOffset: Offset(-2.0, -20.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Congratulations, ${bloc.nameController.text.split(' ')[0]} ',
+              style: Theme.of(context).textTheme.headlineLarge,
+            ),
+          ],
+        ),
       ),
       20.verticalSpace,
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'You\'ve completed the onboarding, \nyou can start using',
-            textAlign: TextAlign.center,
-            style: Theme.of(context)
-                .textTheme
-                .headlineSmall!
-                .copyWith(color: const Color(0xFF6B7280)),
-          ),
-        ],
+      AppSlideAnimation(
+        beginOffset: Offset(-2.0, -20.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'You\'ve completed the onboarding, \nyou can start using',
+              textAlign: TextAlign.center,
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineSmall!
+                  .copyWith(color: const Color(0xFF6B7280)),
+            ),
+          ],
+        ),
       ),
       40.verticalSpace,
-      AppButton1(
-        title: 'Get Started',
-        active: true,
-        onPressed: () {
-          Navigator.of(context).pushNamed(AppRoute.loginPage);
-        },
+      AppSlideAnimation(
+        beginOffset: Offset(0, -5.0),
+        child: AppButton1(
+          title: 'Get Started',
+          active: true,
+          onPressed: () {
+            Navigator.of(context).pushNamed(AppRoute.loginPage);
+          },
+        ),
       )
     ];
   }

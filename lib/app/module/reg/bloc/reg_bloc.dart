@@ -26,6 +26,7 @@ class RegBloc extends Bloc<RegEvent, RegState> with RegProvider {
   final List<int> _codeList = [];
   final List<int> _pinList = [];
 
+
   RegPageState _regPageState = RegPageState.reg;
 
   final TextEditingController emailController = TextEditingController();
@@ -41,6 +42,7 @@ class RegBloc extends Bloc<RegEvent, RegState> with RegProvider {
   List<int> get pinList => _pinList;
 
   Future _onInit(OnInitRegEvent event, Emitter<RegState> emit) async {
+    emit(RegInitState(animate: event.animate));
     _regPageState = RegPageState.reg;
   }
 
@@ -99,13 +101,13 @@ class RegBloc extends Bloc<RegEvent, RegState> with RegProvider {
           password: passwordController.text,
         );
       }
-      log(_pinList.toString());
+
 
       _regPageState = event.page;
       emit(RegPageChangesState(page: event.page, showSnack: !event.backward));
     } on HttpException catch (e) {
       emit(RegErrorState(message: e.message));
-    } on ClientException catch (e) {
+    } on ClientException catch (_) {
       emit(RegErrorState(message: 'Please check your internet connectivity'));
     } catch (_) {
       emit(RegErrorState());

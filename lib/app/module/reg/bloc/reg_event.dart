@@ -3,8 +3,10 @@ part of 'reg_bloc.dart';
 abstract class RegEvent extends Equatable {}
 
 class OnInitRegEvent extends RegEvent {
+  OnInitRegEvent({this.animate = false});
+  final bool animate;
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [animate];
 }
 
 class OnAddCodeRegEvent extends RegEvent {

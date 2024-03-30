@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:smartpay/app/animations/slide.dart';
 import 'package:smartpay/app/asset/image.dart';
+import 'package:smartpay/app/route/app_route.dart';
 import 'package:smartpay/app/util/extension.dart';
 import 'package:smartpay/app/widgets/button.dart';
 
@@ -61,12 +63,15 @@ class _HomePageState extends State<HomePage> {
                   ),
                   20.verticalSpace,
                   if (click >= 3)
-                    AppButton1(
-                      active: true,
-                      title: "Back to login",
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
+                    AppSlideAnimation(
+                      beginOffset: Offset(0.0, 20.0),
+                      child: AppButton1(
+                        active: true,
+                        title: "Back to login",
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(AppRoute.loginPage);
+                        },
+                      ),
                     )
                 ],
               ),

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smartpay/app/animations/slide.dart';
 import 'package:smartpay/app/module/login/bloc/login_bloc.dart';
 import 'package:smartpay/app/module/reg/bloc/reg_bloc.dart';
 import 'package:smartpay/app/route/app_route.dart';

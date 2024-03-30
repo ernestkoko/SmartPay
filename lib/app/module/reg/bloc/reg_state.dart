@@ -3,8 +3,12 @@ part of 'reg_bloc.dart';
 abstract class RegState extends Equatable {}
 
 class RegInitState extends RegState {
+  RegInitState({this.animate = false});
+
+  final bool animate;
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [animate];
 }
 
 class RegCodeAddedState extends RegState {
@@ -35,11 +39,14 @@ class RegErrorState extends RegState {
 }
 
 class RegPageChangesState extends RegState {
-  RegPageChangesState({required this.page, this.showSnack = false,});
+  RegPageChangesState({
+    required this.page,
+    this.showSnack = false,
+  });
 
   final RegPageState page;
   final bool showSnack;
 
   @override
-  List<Object?> get props => [page,showSnack];
+  List<Object?> get props => [page, showSnack];
 }
