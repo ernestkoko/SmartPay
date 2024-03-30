@@ -31,7 +31,7 @@ class OnboardPage extends StatelessWidget {
                             Navigator.of(context).pushNamed(AppRoute.loginPage);
                           },
                           child: Text(
-                            "SKip",
+                            "Skip",
                             style: Theme.of(context)
                                 .textTheme
                                 .headlineMedium!
@@ -92,7 +92,7 @@ class OnboardPage extends StatelessWidget {
                                     pageState: OnboardPageState.two));
                               } else {
                                 Navigator.of(context)
-                                    .pushNamed(AppRoute.homePage);
+                                    .pushNamed(AppRoute.loginPage);
                               }
                             },
                           ),
