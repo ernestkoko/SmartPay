@@ -42,8 +42,8 @@ mixin BaseRequest {
     log(response.statusCode.toString());
     if (response.statusCode >= 400) {
       final res = ErrorResponse.fromJson(jsonDecode(response.body));
-  
-      String message = res.message!;
+
+      String message = res.errors?.email![0] ?? res.message!;
       throw HttpException(message);
     }
 

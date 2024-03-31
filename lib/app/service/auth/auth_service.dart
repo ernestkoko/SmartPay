@@ -19,7 +19,7 @@ class AuthService with BaseRequest implements IAuthService {
     final map = {
       "full_name": name,
       "email": email,
-      "country": country,
+      "country": country.toUpperCase(),
       "password": password,
       "device_name": 'mobile',
     };

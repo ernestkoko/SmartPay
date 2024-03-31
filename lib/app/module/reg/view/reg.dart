@@ -271,6 +271,7 @@ class RegPage extends StatelessWidget {
         hintText: "Select County",
         keyboardType: TextInputType.name,
         controller: bloc.countryController,
+        textType: TextType.country,
         onChanged: (v) {
           bloc.add(OnAddCodeRegEvent());
         },
@@ -281,7 +282,9 @@ class RegPage extends StatelessWidget {
         keyboardType: TextInputType.text,
         controller: bloc.passwordController,
         password: true,
+        textType: TextType.password,
         onChanged: (v) {
+          log(v);
           bloc.add(OnAddCodeRegEvent());
         },
       ),
@@ -289,8 +292,8 @@ class RegPage extends StatelessWidget {
       AppButton1(
         title: 'Continue',
         active: bloc.nameController.text.isNotEmpty &&
-            bloc.countryController.text.isNotEmpty &&
-            bloc.passwordController.text.isNotEmpty,
+            bloc.countryController.text.length == 2 &&
+            bloc.passwordController.text.hasLowerUpperAndNumberCases,
         loading: state is RegLoadingState && state.loading,
         onPressed: () {
           bloc.add(OnRegPageChangedEvent(page: RegPageState.pin));

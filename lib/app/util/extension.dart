@@ -18,13 +18,18 @@ extension LoopString on String {
     }
     return l;
   }
+
+  bool get hasLowerUpperAndNumberCases =>
+      RegExp(r'[A-Z]').hasMatch(this) &&
+      RegExp(r'[a-z]').hasMatch(this) &&
+      RegExp(r'[0-9]').hasMatch(this);
 }
 
-extension AppList on List{
-  String getStringOfValues(){
+extension AppList on List {
+  String getStringOfValues() {
     String k = '';
-    for(final v in this){
-      k ='$k$v';
+    for (final v in this) {
+      k = '$k$v';
     }
     return k;
   }
