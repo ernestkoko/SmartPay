@@ -35,5 +35,9 @@ interface class IAuthService {
     required String password,
   }) {
     throw UnimplementedError('login not implemented!');
+  } Future<String> dashboard({
+    required String token
+  }) {
+    throw UnimplementedError('dashboard not implemented!');
   }
 }

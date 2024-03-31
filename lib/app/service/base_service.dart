@@ -15,9 +15,9 @@ mixin BaseRequest {
     required String serviceUrl,
     HttpRequestType type = HttpRequestType.get,
     Map? body,
+    String? token,
   }) async {
     late http.Response response;
-    log('$baseUrl/$serviceUrl');
     if (type == HttpRequestType.post) {
       log("REquest");
 
@@ -35,11 +35,11 @@ mixin BaseRequest {
         Uri.parse('$baseUrl/$serviceUrl'),
         headers: {
           'Content-Type': 'application/json',
+          if (token != null) 'Authorization': 'Bearer $token',
         },
       );
     }
-    log(response.body);
-    log(response.statusCode.toString());
+
     if (response.statusCode >= 400) {
       final res = ErrorResponse.fromJson(jsonDecode(response.body));
 
@@ -47,8 +47,6 @@ mixin BaseRequest {
       throw HttpException(message);
     }
 
-    log("RESPONSE");
-    log(response.body);
     return response;
   }
 }

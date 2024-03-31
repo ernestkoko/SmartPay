@@ -7,6 +7,7 @@ import 'package:smartpay/app/module/reg/bloc/reg_bloc.dart';
 import 'package:smartpay/app/route/app_route.dart';
 
 import 'package:smartpay/app/util/extension.dart';
+import 'package:smartpay/app/widgets/bottom_sheet.dart';
 import 'package:smartpay/app/widgets/button.dart';
 import 'package:smartpay/app/widgets/code_box.dart';
 import 'package:smartpay/app/widgets/divider.dart';
@@ -25,12 +26,12 @@ class RegPage extends StatelessWidget {
         child: BlocConsumer<RegBloc, RegState>(
           listener: (context, state) {
             if (state is RegErrorState) {
-              showAppSnackBar(context,
+              showAppSnackBar(
                   message: state.message,
                   messageType: SnackBarMessageType.error);
             }
             if (state is RegPageChangesState && state.showSnack) {
-              showAppSnackBar(context,
+              showAppSnackBar(
                   message: 'Successful!',
                   messageType: SnackBarMessageType.success);
             }
@@ -269,11 +270,22 @@ class RegPage extends StatelessWidget {
       20.verticalSpace,
       AppTextField(
         hintText: "Select County",
+        readOnly: true,
         keyboardType: TextInputType.name,
         controller: bloc.countryController,
         textType: TextType.country,
         onChanged: (v) {
-          bloc.add(OnAddCodeRegEvent());
+          // bloc.add(OnAddCodeRegEvent());
+        },
+        onTap: () {
+          showModalBottomSheet(
+              context: context,
+              // clipBehavior: Clip.none,
+              backgroundColor: Colors.white,
+              // shape: RoundedRectangleBorder(),
+              builder: (context) => AppBottomSheet(
+                    controller: bloc.countryController,
+                  ));
         },
       ),
       20.verticalSpace,

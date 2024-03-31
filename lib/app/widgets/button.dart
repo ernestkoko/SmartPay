@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartpay/app/asset/image.dart';
 import 'package:smartpay/app/util/extension.dart';
 
 class AppButton1 extends StatelessWidget {
@@ -23,7 +24,7 @@ class AppButton1 extends StatelessWidget {
           ? () {}
           : active
               ? () {
-                  FocusManager.instance.primaryFocus?.unfocus();
+                  // FocusManager.instance.primaryFocus?.unfocus();
                   if (onPressed != null) {
                     onPressed!();
                   }
@@ -42,7 +43,8 @@ class AppButton1 extends StatelessWidget {
                     color: const Color(0xFFFFFFFF),
                   ),
             )
-          : const CircularProgressIndicator(),
+          : SizedBox(
+              height: 30, width: 30, child: const CircularProgressIndicator()),
     );
   }
 }
@@ -95,7 +97,13 @@ class ThirdPartySignInButtons extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: _button(onTap: onTap1, loading: loading),
+          child: _button(
+              onTap: onTap1,
+              loading: loading,
+              child: Image.asset(
+                AppAsset.google,
+                height: 25,
+              )),
         ),
         20.horizontalSpace,
         Expanded(
@@ -108,6 +116,7 @@ class ThirdPartySignInButtons extends StatelessWidget {
   Widget _button({
     Function()? onTap,
     bool loading = false,
+    Widget? child,
   }) {
     return GestureDetector(
       onTap: loading ? null : onTap,
@@ -116,7 +125,7 @@ class ThirdPartySignInButtons extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             border: Border.all(width: 1, color: Colors.grey)),
-        child: const Icon(Icons.apple),
+        child: child ?? const Icon(Icons.apple),
       ),
     );
   }

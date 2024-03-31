@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:smartpay/app/model/auth/email_token_model.dart';
 import 'package:smartpay/app/model/auth/reg.dart';
 import 'package:smartpay/app/model/auth/verify_email-token.dart';
+import 'package:smartpay/app/model/dashboard.dart';
 import 'package:smartpay/app/service/auth/i_auth_service.dart';
 import 'package:smartpay/app/service/base_service.dart';
 
@@ -89,5 +90,18 @@ class AuthService with BaseRequest implements IAuthService {
           "Something went wrong with. Please try again later");
     }
     return data;
+  }
+
+  @override
+  Future<String> dashboard({
+    required String token,
+  }) async {
+    final response = await request(
+      serviceUrl: 'dashboard',
+      token: token,
+      type: HttpRequestType.get,
+    );
+    return Dashboard.fromJson(jsonDecode(response.body)).data!.secret ??
+        "Very unfortunate that nothing was returned";
   }
 }

@@ -9,7 +9,14 @@ class AppDivider extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: Divider(),
+          child: Container(
+            height: 0.5,
+            decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [
+              Colors.black.withOpacity(0.8),
+              Colors.white.withOpacity(0.5),
+            ], begin: Alignment.centerRight, end: Alignment.centerLeft)),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -26,7 +33,14 @@ class AppDivider extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: Divider(),
+          child: Container(
+            height: 0.5,
+            decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [
+              Colors.white.withOpacity(0.5),
+              Colors.black.withOpacity(0.8),
+            ], begin: Alignment.centerRight, end: Alignment.centerLeft)),
+          ),
         ),
       ],
     );

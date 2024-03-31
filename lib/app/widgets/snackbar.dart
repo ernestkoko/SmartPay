@@ -7,8 +7,7 @@ enum SnackBarMessageType {
   warning,
 }
 
-void showAppSnackBar(
-  BuildContext context, {
+void showAppSnackBar({
   required String message,
   Color? color,
   SnackBarMessageType messageType = SnackBarMessageType.success,
@@ -21,7 +20,8 @@ void showAppSnackBar(
         behavior: SnackBarBehavior.floating,
         dismissDirection: DismissDirection.up,
         margin: EdgeInsets.only(
-            bottom: MediaQuery.of(context).size.height - 150,
+            bottom:
+                MediaQuery.of(scaffoldKey.currentContext!).size.height - 150,
             left: 30,
             right: 30),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(150)),
@@ -35,7 +35,9 @@ void showAppSnackBar(
                 padding: const EdgeInsets.only(left: 40),
                 child: Text(
                   message,
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  style: Theme.of(scaffoldKey.currentContext!)
+                      .textTheme
+                      .bodyMedium,
                 ),
               ),
             ),

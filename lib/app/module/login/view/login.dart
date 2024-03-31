@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartpay/app/animations/slide.dart';
+import 'package:smartpay/app/module/home/bloc/home_bloc.dart';
 import 'package:smartpay/app/module/login/bloc/login_bloc.dart';
 import 'package:smartpay/app/module/reg/bloc/reg_bloc.dart';
 import 'package:smartpay/app/route/app_route.dart';
@@ -25,14 +26,17 @@ class LoginPage extends StatelessWidget {
           child: BlocConsumer<LoginBloc, LoginState>(
             listener: (context, state) {
               if (state is LoginErrorState) {
-                showAppSnackBar(context,
+                showAppSnackBar(
                     message: state.message,
                     messageType: SnackBarMessageType.error);
               }
               if (state is LoginSuccessState) {
-                showAppSnackBar(context,
+                showAppSnackBar(
                     message: "Logged in successfully!",
                     messageType: SnackBarMessageType.success);
+                context
+                    .read<HomeBloc>()
+                    .add(OnDashboardHomeEvent(token: state.token));
                 Navigator.of(context)
                     .pushNamed(AppRoute.homePage, arguments: state.token);
               }

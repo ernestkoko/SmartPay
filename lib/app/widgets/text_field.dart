@@ -1,28 +1,32 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:smartpay/app/asset/image.dart';
 import 'package:smartpay/app/util/extension.dart';
 
 enum TextType { country, password }
 
 class AppTextField extends StatefulWidget {
-  const AppTextField({
-    super.key,
-    this.hintText,
-    this.errorText,
-    this.password = false,
-    this.onChanged,
-    this.enabled = true,
-    this.controller,
-    this.keyboardType,
-    this.textType,
-  });
+  const AppTextField(
+      {super.key,
+      this.hintText,
+      this.errorText,
+      this.password = false,
+      this.onChanged,
+      this.enabled = true,
+      this.controller,
+      this.keyboardType,
+      this.textType,
+      this.readOnly = false,
+      this.onTap});
 
   final String? hintText;
   final String? errorText;
   final bool password;
   final bool enabled;
+  final bool readOnly;
   final Function(String)? onChanged;
+  final Function()? onTap;
   final TextEditingController? controller;
   final TextInputType? keyboardType;
   final TextType? textType;
@@ -38,11 +42,12 @@ class _AppTextFieldState extends State<AppTextField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      readOnly: widget.readOnly,
+      onTap: widget.onTap,
       onChanged: (v) {
         if (widget.textType != null) {
           //If password ensure it has upper, lower cases and number
           if (widget.textType == TextType.password) {
-            widget.controller?.text = v;
             if (!v.hasLowerUpperAndNumberCases) {
               _errorMessage =
                   'Password should contain one lower, upper and number cases';
@@ -55,8 +60,8 @@ class _AppTextFieldState extends State<AppTextField> {
             } else {
               _errorMessage = null;
             }
-          } else if (widget.textType == TextType.country) {
             widget.controller?.text = v;
+          } else if (widget.textType == TextType.country) {
             if (v.length != 2) {
               _errorMessage = "Country should be max 2 characters e.g NG";
               setState(() {});
@@ -64,6 +69,7 @@ class _AppTextFieldState extends State<AppTextField> {
             } else {
               _errorMessage = null;
             }
+            widget.controller?.text = v;
           }
         }
 
@@ -117,19 +123,24 @@ class _AppTextFieldState extends State<AppTextField> {
             ),
             borderRadius: BorderRadius.circular(16),
           ),
-          suffixIcon: widget.password
-              ? IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _togglePassword = !_togglePassword;
-                    });
-                  },
-                  icon: Icon(
-                    _togglePassword ? Icons.visibility : Icons.visibility_off,
-                    color: Colors.grey,
-                  ),
+          suffixIcon: widget.textType == TextType.country
+              ? Icon(
+                  Icons.keyboard_arrow_down_outlined,
+                  color: Theme.of(context).textTheme.headlineLarge!.color,
                 )
-              : null),
+              : widget.password
+                  ? IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _togglePassword = !_togglePassword;
+                        });
+                      },
+                      icon: Image.asset(
+                        _togglePassword ? AppAsset.eye : AppAsset.eye_off,
+                        height: 29,
+                      ),
+                    )
+                  : null),
     );
   }
 }
